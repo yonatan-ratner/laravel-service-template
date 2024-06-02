@@ -5,7 +5,8 @@ A template repository to setup a PHP webserver.
 base docker setup - [Source](https://betterstack.com/community/guides/scaling-php/php-docker-images/#prerequisites)
 
 ## CONTENTS
-- php-fpm to nginx integration.
+- php-fpm <--> nginx integration.
+
 ## COMMANDS
 
 - simulate container as local dev env with bash shell access
