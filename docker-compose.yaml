@@ -15,11 +15,11 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./product-api:/var/www/app:delegated # change product-api to your projects folder name
     depends_on:
-      - php
+      - php-service
     networks:
       - laravel
 
-  php:
+  php-service: # if you change this name makes sure to change any depends_on directives, and the fastcgi_pass in ngingx.conf !!!!
     build:
       context: .
       dockerfile: Dockerfile

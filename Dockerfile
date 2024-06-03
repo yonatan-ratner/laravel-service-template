@@ -1,8 +1,7 @@
 # syntax=docker/dockerfile:1
 
-# This is php:8.3.7-fpm-alpine3.20 
-ARG DIGEST_SHA=php@sha256:e7b38665eec50f09570ac19d55f811cf6a871df954901d9c9422aeeb10c82a07
-FROM $DIGEST_SHA as core
+FROM composer:2.7.6
+FROM php:8.3.7-fpm-alpine3.20
 
 # Install common php extension dependencies
 RUN apk update && apk add \
@@ -26,12 +25,14 @@ RUN chown -R www-data:www-data /var/www/app \
 
 
 # install composer
-COPY --from=composer:2.6.5 /usr/bin/composer /usr/local/bin/composer
+COPY --from=0 /usr/bin/composer /usr/bin/composer
 
 # copy composer.json to workdir & install dependencies
 ## Change ./product-api to your Projects name!
 COPY ./product-api/composer.json ./
-RUN composer install
+#RUN composer dump-autoload 
+RUN composer install 
+#RUN composer update
 
 # Set the default command to run php-fpm
 CMD ["php-fpm"]
