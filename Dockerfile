@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1
 
-FROM composer:2.7.6
-FROM php:8.3.7-fpm-alpine3.20
+FROM php:8.3.7-fpm-alpine3.20 as runtime
 
 # Install common php extension dependencies
 RUN apk update && apk add \
+    bash \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
@@ -16,23 +16,21 @@ RUN apk update && apk add \
     && docker-php-ext-install zip
 
 # Set the working directory
-## Change ./product-api to your Projects name!
-COPY ./product-api /var/www/app 
+## Change example-project to your Projects name!
+COPY ./example-project /var/www/app 
 WORKDIR /var/www/app
 
 RUN chown -R www-data:www-data /var/www/app \
     && chmod -R 775 /var/www/app/storage
 
-
-# install composer
+## install composer ##
+FROM composer:2.7.6 as pkg-manager
 COPY --from=0 /usr/bin/composer /usr/bin/composer
 
 # copy composer.json to workdir & install dependencies
-## Change ./product-api to your Projects name!
-COPY ./product-api/composer.json ./
-#RUN composer dump-autoload 
+## Change ./example-project to your projects name!
+COPY ./example-project/composer.json ./
 RUN composer install 
-#RUN composer update
 
 # Set the default command to run php-fpm
 CMD ["php-fpm"]

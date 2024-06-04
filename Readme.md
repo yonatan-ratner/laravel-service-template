@@ -9,22 +9,25 @@ base docker setup - [Source](https://betterstack.com/community/guides/scaling-ph
 
 ## COMMANDS
 
-- simulate container as local dev env with bash shell access
+- attach to running container with bash (it was installed as of writing this!)
 ``` 
- docker compose run api bash
+ docker exec -it *container-id* bash
 ```
 
-- setup localhost live-service
-``` 
-docker compose up api 
+- activate everything in docker compose in detached mode ( -d flag ), and build it all ( --build flag, drop if no rebuild is needed )
+```
+ docker-compose up -d --build
 ```
 
-- setup for deployment
-``` 
-TODO 
-```
+## Steps needed after creating a fresh repository from this template
+1. 
+    ``` 
+    add this volume to the php service
+    - ./example-project:/var/www/example-project:delegated
+    ```
+    - replace example-app with the name you want
+2. ``` docker-compose --rm run php-service bash ``` to build run and attach to a temporary container 
+3. ``` cd var/www ``` then run ``` composer create-project laravel/laravel *example-app* ``` - replace example-app with the name you want
+5. Adjust paths in docker-compose.yaml and Dockerfile accordingly.
 
-* when changing dependencies
-``` 
-docker compose build 
-```
+the idea is to init a new project with the appropriate name from within the containers filesystem to avoid installing dependencies, and then docker-compose up will mount the source code from the projects folder 

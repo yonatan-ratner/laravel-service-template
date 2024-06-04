@@ -2,7 +2,6 @@ networks:
   laravel:
     driver: bridge
 
-# TODO: change container names to reflect template
 services:
   nginx:
     image: nginx:alpine
@@ -13,7 +12,7 @@ services:
       - "7000:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./product-api:/var/www/app:delegated # change product-api to your projects folder name
+      - ./example-project:/var/www/app:delegated ### rename from example-project to whats needed ###
     depends_on:
       - php-service
     networks:
@@ -29,7 +28,10 @@ services:
     expose:
       - "9000"
     volumes:
-      - ./product-api:/var/www/app:delegated # change product-api to your projects folder name
+        - ./example-project:/var/www/example-project:delegated
+      # - ./example-project:/var/www/app:delegated ### rename from example-project to whats needed ###
+      # - ./php-fpm.conf:/usr/local/etc/php-fpm.conf
+      # - ./php-fpm.conf:/usr/local/etc/php-fpm.conf.default
     networks:
       - laravel
 
