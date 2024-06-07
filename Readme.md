@@ -26,7 +26,7 @@ base docker setup - [Source](https://betterstack.com/community/guides/scaling-ph
     - ./example-project:/var/www/example-project:delegated
     ```
     - replace example-app with the name you want
-2. ``` docker-compose --rm run php-service bash ``` to build run and attach to a temporary container 
+2. ``` docker-compose run --rm php-service bash ``` to build run and attach to a temporary container 
 3. ``` cd var/www ``` then run ``` composer create-project laravel/laravel *example-app* ``` - replace example-app with the name you want
 5. Adjust paths in docker-compose.yaml and Dockerfile accordingly.
 
